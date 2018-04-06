@@ -1,0 +1,18 @@
+#home {
+    display: block;
+    width: 200px;
+    height: 200px;
+    background-color: red;
+}
+
+body {
+    image-rendering: pixelated;
+}
+
+#x {
+    display: none;
+}
+
+canvas {
+    background-color: mediumseagreen;
+}
