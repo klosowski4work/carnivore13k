@@ -17,8 +17,8 @@ export class Animation {
         this.tickCount = 0;
 
     }
-    addFrame(frame) {
-        this.frames.push(frame);
+    addFrame(x, y, w, h) {
+        this.frames.push(new Frame(x, y, w, h));
         return this;
     }
     render(x, y, mirrored) {

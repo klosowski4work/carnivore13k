@@ -7,10 +7,10 @@ Keyboard.State.Down = 2;
 
 
 Keyboard.Key = {};
-Keyboard.Key.Up = 38;
-Keyboard.Key.Left = 37;
-Keyboard.Key.Down = 40;
-Keyboard.Key.Right = 39;
+Keyboard.Key.Up = 87;
+Keyboard.Key.Left = 65;
+Keyboard.Key.Down = 83;
+Keyboard.Key.Right = 68;
 Keyboard.Key.R = 82;
 Keyboard.Key.F = 70;
 
@@ -26,6 +26,7 @@ Keyboard._keydown = function (evt) {
 
 Keyboard._keyup = function (evt) {
   var key = evt.which;
+  console.log(key)
   Keyboard.Keys[key] = Keyboard.State.Up;
 };
 

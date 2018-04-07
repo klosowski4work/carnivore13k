@@ -65,9 +65,9 @@ export class Man {
             const img = get('img');
             append(document.body, img).id = this.id;
             img.src = canvas.toDataURL('image/png');
-            resolve();
-
-        }).then(() => remove());
+            resolve(this.id);
+            // remove();
+        })
 
 
     }

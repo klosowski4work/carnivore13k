@@ -1,9 +1,11 @@
 
-import { id, get } from "./utils";
+import { id, get, append } from "./utils";
 import { GAME_WIDTH, GAME_HEIGHT } from "./globals";
 import { test as testPeople } from "../tests/people";
 import { test as testMan } from "../tests/man";
 import { addAssets } from "../gfx/assets";
+import { Man } from "../gfx/man";
+import { Hero } from "../hero";
 
 export class Core {
     constructor() {
@@ -11,30 +13,34 @@ export class Core {
             entities: { canvas: null, ctx: null },
             ui: { canvas: null, ctx: null }
         };
-        addAssets()
-            .then(() => {
-                this.tests();
-            });
-
+        this.init();
     };
 
     init() {
-        // this.initCanvases();
-        // this.update();
-        // this.render();
-        // this.loop();
+        this.initCanvases();
+
+        addAssets()
+            .then(() => {
+                this.initPlayer();
+                this.loop();
+                // this.tests();
+            });
 
         // this.persone = new Persone(people.bases[3], this.ctx, 16, 16);
     };
     tests() {
-        // testPeople();
+        testPeople();
         testMan();
+    }
+    initPlayer() {
+        new Man().create()
+            .then((idImg) => { this.player = new Hero(idImg, this.ctx); console.log(this.player) });
     }
     initCanvases() {
         this.container = id("game");
         this.canvas = get('canvas');
         this.ctx = this.canvas.getContext("2d");
-        this.container.appendChild(this.canvas);
+        append(this.container, this.canvas);
         // Object.keys(this.canvases).forEach(canvasId => {
         //     var canvas = get("canvas");
         //     canvas.id = canvasId;
@@ -73,10 +79,15 @@ export class Core {
 
         this.ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
 
-        this.update();
-        this.render();
+        try {
+            this.update();
+            this.render();
+        } catch (e) {
+            console.log(e, 'warning')
+        }
     };
     update() {
+        this.player.update();
         // this.wolf.update();
         // EntityManager.Update(dt);
         // camera.update();
@@ -95,7 +106,7 @@ export class Core {
         // }
 
 
-        // this.wolf.render();
+        this.player.render();
     };
 
 
