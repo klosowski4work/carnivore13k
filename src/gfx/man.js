@@ -1,4 +1,4 @@
-import { random, tempCanvas, randomColorHexRGB, chance, id, get, colorizeImage, lightenDarkenColor, append } from "../app/utils";
+import { random, createCanvas, randomColorHexRGB, chance, id, get, colorizeImage, lightenDarkenColor, append } from "../app/utils";
 
 export const COLORS = {
     skin: [
@@ -39,7 +39,7 @@ export class Man {
         this.config = this.shuffle();
     }
     create() {
-        const { canvas, ctx, remove } = tempCanvas();
+        const { canvas, ctx, remove } = createCanvas();
         const { width, height } = id('base');
         canvas.width = width;
         canvas.height = height;

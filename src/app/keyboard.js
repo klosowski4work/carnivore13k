@@ -26,7 +26,6 @@ Keyboard._keydown = function (evt) {
 
 Keyboard._keyup = function (evt) {
   var key = evt.which;
-  console.log(key)
   Keyboard.Keys[key] = Keyboard.State.Up;
 };
 

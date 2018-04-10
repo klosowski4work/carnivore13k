@@ -1,8 +1,8 @@
 const fs = require('fs')
 const archiver = require('archiver')
 
-fs.unlinkSync('./dist/script.js')
-fs.unlinkSync('./dist/style.css')
+// fs.unlinkSync('./dist/script.js')
+// fs.unlinkSync('./dist/style.css')
 
 let output = fs.createWriteStream('./dist/build.zip')
 let archive = archiver('zip', {

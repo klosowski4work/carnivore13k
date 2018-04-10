@@ -80,9 +80,9 @@ export function get(t) {
   return document.createElement(t);
 }
 
-export function append(parent, child) {
-  parent.append(child);
-  return child;
+export function append(parent, ...childs) {
+  childs.forEach((el) => parent.append(el));
+  return childs[0];
 }
 /**
  * @param {number} v
@@ -132,7 +132,7 @@ export function toHex(number, size = 2) {
   return ('0'.repeat(size) + number.toString(16)).slice(-size);
 }
 
-export function tempCanvas(parent = document.body) {
+export function createCanvas(parent = document.body) {
   const canvas = get('canvas');
   const ctx = canvas.getContext("2d");
   parent.appendChild(canvas);
@@ -160,7 +160,7 @@ export function lightenDarkenColor(color, amt) {
 }
 
 export function addAsset(idx, src, parent = 'assets') {
-  const { canvas, ctx, remove } = tempCanvas(id('assets'));
+  const { canvas, ctx, remove } = createCanvas(id('assets'));
   const img = new Image();
   img.src = src;
   document.body.appendChild(img);

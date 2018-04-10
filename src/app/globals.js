@@ -7,7 +7,7 @@ export const GAME_HEIGHT = 360;*/
 /*export const GAME_WIDTH = 1280;
 export const GAME_HEIGHT = 720;*/
 // export const GAME_WIDTH = innerWidth;
-export const GAME_HEIGHT = 500; 
+export const GAME_HEIGHT = 320; 
 export const GAME_WIDTH = 500;
 
 export const GAME_SIZE = new Point(GAME_WIDTH, GAME_HEIGHT);

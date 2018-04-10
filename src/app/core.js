@@ -6,13 +6,15 @@ import { test as testMan } from "../tests/man";
 import { addAssets } from "../gfx/assets";
 import { Man } from "../gfx/man";
 import { Hero } from "../hero";
+import { Camera } from "./camera";
+import { City } from "./city";
 
 export class Core {
     constructor() {
-        this.canvases = {
-            entities: { canvas: null, ctx: null },
-            ui: { canvas: null, ctx: null }
-        };
+        // this.canvases = {
+        //     entities: { canvas: null, ctx: null },
+        //     ui: { canvas: null, ctx: null }
+        // };
         this.init();
     };
 
@@ -22,7 +24,9 @@ export class Core {
         addAssets()
             .then(() => {
                 this.initPlayer();
+                this.initCity();
                 this.loop();
+
                 // this.tests();
             });
 
@@ -34,12 +38,20 @@ export class Core {
     }
     initPlayer() {
         new Man().create()
-            .then((idImg) => { this.player = new Hero(idImg, this.ctx); console.log(this.player) });
+            .then((idImg) => {
+                this.player = new Hero(idImg, this.ctx);
+                Camera.follow(this.player);
+            });
+    }
+    initCity() {
+        this.city = new City(15);
     }
     initCanvases() {
         this.container = id("game");
         this.canvas = get('canvas');
+        this.canvas.style.transform = "translate3d(0,0,0)";
         this.ctx = this.canvas.getContext("2d");
+        this.layerMiddle = id('layer_middle');
         append(this.container, this.canvas);
         // Object.keys(this.canvases).forEach(canvasId => {
         //     var canvas = get("canvas");
@@ -88,6 +100,10 @@ export class Core {
     };
     update() {
         this.player.update();
+        Camera.update();
+        this.layerMiddle.style.perspectiveOrigin = `${Camera.pos.x + 230}px ${-Camera.pos.y}px`;
+        this.layerMiddle.style.transform = `translate3d(${-Camera.pos.x}px,0px,-10px)`;
+        // this.layerMiddle.style.perspectiveOrigin = `50% 50%`;
         // this.wolf.update();
         // EntityManager.Update(dt);
         // camera.update();

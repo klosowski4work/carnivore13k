@@ -1,16 +1,33 @@
 import { Animation, Frame } from './app/animation';
-import { id } from './app/utils';
+import { id, clamp, createCanvas } from './app/utils';
 import { Keyboard } from './app/keyboard';
+import { Entity } from './app/entity';
+import { Point } from './app/point';
 
-export class Hero {
-    constructor(hero_id, ctx) {
+export class Hero extends Entity {
+    constructor(hero_id) {
+        super();
         this.image = id(hero_id);
-        this.ctx = ctx;
         this.animations = {};
-        this.pos = { x: 0, y: 0 };
+        this.pos = new Point(0, 250);
+        this.width = 24;
+        this.height = 32;
+        this.initCanvas();
         this.initAnimations();
         this.direction = 'right';
         Keyboard.init();
+    }
+    initCanvas() {
+        const { canvas, ctx, remove } = createCanvas(id('game'));
+        this.canvas = canvas;
+        this.canvas.width = this.width;
+        this.canvas.height = this.height;
+        this.canvas.style.position = 'absolute';
+        this.canvas.style.top = 0;
+        this.canvas.style.left = '50px';
+        this.canvas.style.transform = 'translate3d(30px,250px,1px)';
+        this.ctx = ctx;
+        this.remove = remove;
     }
     initAnimations() {
         const options = {
@@ -18,8 +35,8 @@ export class Hero {
             image: this.image,
             ticksPerFrame: 8,
         }
-        const w = 24;
-        const h = 32;
+        const w = this.width;
+        const h = this.height;
 
         this.animations.right = new Animation(options)
             .addFrame(2 * w, h, w, h)
@@ -59,7 +76,10 @@ export class Hero {
         this.pos.y -= 1;
     }
     render() {
-        this.animations[this.direction].render(this.pos.x, this.pos.y);
+        this.ctx.clearRect(0, 0, this.width, this.height);
+
+        this.canvas.style.transform = `translate3d(230px,${this.pos.y}px,1px)`;
+        this.animations[this.direction].render(0, 0);
     }
     update() {
         if (Keyboard.Keys[Keyboard.Key.Right] > Keyboard.State.Up) {
@@ -74,6 +94,7 @@ export class Hero {
         if (Keyboard.Keys[Keyboard.Key.Down] > Keyboard.State.Up) {
             this.moveDown();
         }
+        this.pos.y = clamp(this.pos.y, 210, 260);
         let reset = 0;
         Object.keys(Keyboard.Keys).forEach(key => reset += Keyboard.Keys[key]);
         this.animations[this.direction].update(!reset);

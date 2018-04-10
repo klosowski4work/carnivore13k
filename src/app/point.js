@@ -1,80 +1,32 @@
-/**
- * @param {number} x
- * @param {number} y
- * */
-export function Point(x, y) {
-  var self = this;
+import { clamp } from "./utils";
 
-  self.x = x;
-  self.y = y;
-
-  /**
-   * @param {number} amt
-   * @return Point
-   * */
-  self.mul = function(amt) {
-    return new Point(self.x * amt, self.y * amt);
+export class Point {
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
+  }
+  clamp(min, max) {
+    return new Point(clamp(this.x, min.x, max.x), clamp(this.y, min.y, max.y));
+  }
+  get angle() {
+    return Math.atan2(this.y, this.x);
+  }
+  mul(amt) {
+    return new Point(this.x * amt, this.y * amt);
   };
-
-  /**
-   * @param {Point} min
-   * @param {Point} max
-   * @return Point
-   * */
-  self.clamp = function(min, max) {
-    return new Point(clamp(self.x, min.x, max.x), clamp(self.y, min.y, max.y));
+  add(other) {
+    return new Point(this.x + other.x, this.y + other.y);
   };
-
-  /**
-   * @param {Point} other
-   * @return Point
-   * */
-  self.add = function(other) {
-    return new Point(self.x + other.x, self.y + other.y);
+  sub(other) {
+    return new Point(this.x - other.x, this.y - other.y);
   };
-
-  /**
-   * @param {Point} other
-   * @return Point
-   * */
-  self.sub = function(other) {
-    return new Point(self.x - other.x, self.y - other.y);
+  flat(other) {
+    return new Point(this.x * other.x, this.y * other.y);
   };
-
-  /**
-   * @param {Point} other
-   * @return Point
-   * */
-  self.flat = function(other) {
-    return new Point(self.x * other.x, self.y * other.y);
-  };
-
-  /**
-   * @return {number}
-   * */
-  self.angle = function() {
-    return Math.atan2(self.y, self.x);
-  };
-
-  /**
-   * @return Point
-   * */
-  self.clone = function() {
-    return new Point(self.x, self.y);
-  };
+  static right() {
+    return new Point(1, 0);
+  }
+  static top() {
+    return new Point(0, 1);
+  }
 }
-
-Point.zero = function() { return Point.from(0) };
-Point.one  = function() { return Point.from(1) };
-Point.left  = function() { return new Point(1, 0) };
-Point.down  = function() { return new Point(0, 1) };
-
-/**
- * @static
- * @param {number} x
- * @param {number} [y]
- * @return {Point}
- * */
-Point.from = function (x, y) {
-  return new Point(x, typeof y === "undefined" ? x : y);
-};

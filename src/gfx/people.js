@@ -1,4 +1,4 @@
-import { id, get, toHex, tempCanvas, random, randomColorHexRGBA, lightenDarkenColor } from "../app/utils";
+import { id, get, toHex, createCanvas, random, randomColorHexRGBA, lightenDarkenColor } from "../app/utils";
 
 export class People {
     constructor() {
@@ -10,7 +10,7 @@ export class People {
         this.init();
     }
     init() {
-        const { canvas, ctx, remove } = tempCanvas();
+        const { canvas, ctx, remove } = createCanvas();
         const img = id('people');
         // img.style.display = 'none';
         ctx.drawImage(img, 0, 0, img.width, img.height);
@@ -38,7 +38,7 @@ export class People {
         }
     }
     createPeoples(number) {
-        const { ctx, canvas } = tempCanvas();
+        const { ctx, canvas } = createCanvas();
 
         canvas.webkitImageSmoothingEnabled = false;
         canvas.mozImageSmoothingEnabled = false;
@@ -52,7 +52,7 @@ export class People {
             for (let c = 0; c < cols; c++) {
                 this.drawRandomPeople(ctx, r * 16, c * 16);
             }
-        }
+        }a
     }
     drawPeople(ctx, type, x, y) {
         const clotheColor = randomColorHexRGBA();

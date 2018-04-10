@@ -14,5 +14,78 @@ body {
 }
 
 canvas {
-    background-color: mediumseagreen;
+    display: none;
+}
+
+#game {
+    perspective: 2000px;
+    width: 500px;
+    height: 300px;
+    border: 1px solid green;
+    overflow: hidden;
+}
+
+.layer_far {
+    position: relative;
+    z-index: -100;
+    transform: translate3d(0, 0, -200px);
+    display: none;
+}
+
+.layer_middle {
+    display: flex;
+    align-items: flex-end;
+    transform: translate3d(0, 140px, -10px);
+    perspective: 700px;
+    transform-style: preserve-3d;
+    bottom: 130px;
+    height: 350px;
+    position: relative;
+}
+
+.layer_middle .building {
+    margin-left: 100px;
+}
+
+.building {
+    display: flex;
+    position: relative;
+}
+
+.side {
+    backface-visibility: hidden;
+    opacity: 50%;
+}
+
+.building .side.left {
+    transform: rotateY(90deg) scaleZ(-1);
+    transform-origin: 0 0;
+    position: absolute;
+}
+
+.building .side.right {
+    transform: rotateY(270deg) scaleZ(-1);
+    transform-origin: 100% 0;
+    position: absolute;
+    right: 0;
+}
+
+.building .side.top {
+    background-color: gray;
+    position: absolute;
+    transform: rotateX(-90deg) scaleZ(-1);
+    transform-origin: 100% 0;
+}
+
+.building .side.front,
+.building .side.top {
+    z-index: 1;
+}
+
+#city {
+    height: 300px;
+}
+
+div#game>canvas {
+    display: block;
 }
