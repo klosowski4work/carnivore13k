@@ -43,6 +43,14 @@ canvas {
     position: relative;
 }
 
+.layer_street {
+    width: 1000px;
+    background-color: gray;
+    position: absolute;
+    bottom: 0px;
+    height: 85px;
+}
+
 .layer_middle .building {
     margin-left: 100px;
 }
@@ -55,6 +63,7 @@ canvas {
 .side {
     backface-visibility: hidden;
     opacity: 50%;
+    box-sizing: border-box;
 }
 
 .building .side.left {
