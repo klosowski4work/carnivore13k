@@ -7,39 +7,45 @@ export class Frame {
     }
 }
 
-export class Animation {
-    constructor(options) {
-        this.context = options.context;
-        this.image = options.image;
-        this.frameId = 0;
-        this.frames = [];
-        this.ticksPerFrame = options.ticksPerFrame;
-        this.tickCount = 0;
+export function Animation(options) {
+    const {
+        context,
+        image,
+        ticksPerFrame
+    } = options;
+    const frames = [];
+    let frameId = 0;
+    let tickCount = 0;
 
-    }
-    addFrame(x, y, w, h) {
-        this.frames.push(new Frame(x, y, w, h));
+    /**
+     * addFrame
+     * @param {*} x 
+     * @param {*} y 
+     * @param {*} w 
+     * @param {*} h 
+     */
+    this.addFrame = (x, y, w, h) => {
+        frames.push(new Frame(x, y, w, h));
         return this;
     }
-    render(x, y, mirrored) {
-        this.context.save();
-        const cf = this.frames[this.frameId];
+    this.render = (x, y, mirrored) => {
+        context.save();
+        const cf = frames[frameId];
         if (mirrored) {
-            this.context.scale(-1, 1);
-            this.context.drawImage(
-                this.image,
+            context.scale(-1, 1);
+            context.drawImage(
+            image,
                 cf.x,
                 cf.y,
                 cf.w,
-                cf.h,
-                -x - cf.w,
+                cf.h, -x - cf.w,
                 y,
                 cf.w,
                 cf.h
             );
         } else {
-            this.context.drawImage(
-                this.image,
+            context.drawImage(
+                image,
                 cf.x,
                 cf.y,
                 cf.w,
@@ -50,36 +56,22 @@ export class Animation {
                 cf.h
             );
         }
-        this.context.restore();
+        context.restore();
     }
-    update(reset) {
+    this.update = (reset) => {
         if (reset) {
-            this.tickCount = 0;
-            this.frameId = 0;
+            tickCount = 0;
+            frameId = 0;
         } else {
-            this.tickCount += 1;
-            if (this.tickCount > this.ticksPerFrame) {
-                this.tickCount = 0;
-                if (this.frameId < this.frames.length - 1) {
-                    this.frameId += 1;
+            tickCount += 1;
+            if (tickCount > ticksPerFrame) {
+                tickCount = 0;
+                if (frameId < frames.length - 1) {
+                    frameId += 1;
                 } else {
-                    this.frameId = 0;
+                    frameId = 0;
                 }
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

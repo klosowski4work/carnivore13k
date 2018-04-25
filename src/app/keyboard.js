@@ -17,7 +17,6 @@ Keyboard.Key.F = 70;
 Keyboard.Keys = {};
 
 Keyboard._keydown = function (evt) {
-
   var key = evt.which;
   if (!Keyboard.Keys[key] && Keyboard.Keys[key] !== Keyboard.State.Up) Keyboard.Keys[key] = Keyboard.State.Up;
   if (Keyboard.Keys[key] === Keyboard.State.Pressed) Keyboard.Keys[key] = Keyboard.State.Down;

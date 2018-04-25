@@ -132,9 +132,13 @@ export function toHex(number, size = 2) {
   return ('0'.repeat(size) + number.toString(16)).slice(-size);
 }
 
-export function createCanvas(parent = document.body) {
+export function createCanvas(width, height, parent = document.body) {
   const canvas = get('canvas');
   const ctx = canvas.getContext("2d");
+  canvas.width = width;
+  // canvas.style.width = width;
+  canvas.height = height;
+  // canvas.style.height = height;
   parent.appendChild(canvas);
   return {
     canvas,

@@ -1,36 +1,46 @@
-var Core = new function() {
+import {
+  clearRect
+} from "../../../../../src/app/drawer";
+
+var Core = new function () {
 
   var self = this;
 
   self.canvases = {
-    entities: {canvas: null, ctx: null},
-    ui: {canvas: null, ctx: null}
+    entities: {
+      canvas: null,
+      ctx: null
+    },
+    ui: {
+      canvas: null,
+      ctx: null
+    }
   };
 
   self.container = null;
 
-  self.init = function() {
+  self.init = function () {
     self.initCanvases();
 
-    window.GFX_unpackGFX(function() {
+    window.GFX_unpackGFX(function () {
 
       Keyboard.init();
       Mouse.init();
 
-      LayersCreator.init(function() {
+      LayersCreator.init(function () {
         Map.init();
 
-        EntityManager.Init(function() {
+        EntityManager.Init(function () {
           self.loop();
         });
       });
     });
   };
 
-  self.initCanvases = function() {
+  self.initCanvases = function () {
     self.container = id("game");
 
-    Object.keys(self.canvases).forEach(function(canvasId) {
+    Object.keys(self.canvases).forEach(function (canvasId) {
       var canvas = get("canvas");
 
       canvas.id = canvasId;
@@ -43,8 +53,8 @@ var Core = new function() {
       self.canvases[canvasId].ctx = (self.canvases[canvasId].canvas = canvas).getContext("2d");
     });
 
-    var resizeFn = function() {
-      Object.keys(self.canvases).forEach(function(canvas) {
+    var resizeFn = function () {
+      Object.keys(self.canvases).forEach(function (canvas) {
         self.canvases[canvas].canvas.width = GAME_WIDTH;
         self.canvases[canvas].canvas.height = GAME_HEIGHT;
       });
@@ -58,11 +68,11 @@ var Core = new function() {
   };
 
   self.lsts = null;
-  self.loop = function() {
+  self.loop = function () {
     window.requestAnimFrame(self.loop);
 
     var ts = Date.now();
-    if(!self.lsts) self.lsts = ts;
+    if (!self.lsts) self.lsts = ts;
     var dt = (ts - self.lsts) / 1000;
     self.lsts = ts;
 
@@ -70,14 +80,14 @@ var Core = new function() {
     self.render(dt);
 
   };
-  self.update = function(dt) {
+  self.update = function (dt) {
     EntityManager.Update(dt);
     Camera.update();
     Map.update(dt);
   };
-  self.render = function() {
-    Object.keys(self.canvases).forEach(function(canvasId) {
-      self.canvases[canvasId].ctx.clearRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+  self.render = function () {
+    Object.keys(self.canvases).forEach(function (canvasId) {
+      clearRect(self.canvases[canvasId].ctx, [0, 0, GAME_WIDTH, GAME_HEIGHT]);
     });
 
     EntityManager.Render();
@@ -85,15 +95,15 @@ var Core = new function() {
 
 };
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function () {
   Core.init();
 });
 
-window.requestAnimFrame = (function(){
-  return  window.requestAnimationFrame       ||
+window.requestAnimFrame = (function () {
+  return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame    ||
-    function( callback ){
+    window.mozRequestAnimationFrame ||
+    function (callback) {
       window.setTimeout(callback, 1000 / 60);
     };
 })();

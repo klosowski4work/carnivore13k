@@ -1,71 +1,110 @@
-import { id, get, toHex, createCanvas, random, randomColorHexRGBA, lightenDarkenColor } from "../app/utils";
+import {
+    random,
+    createCanvas,
+    randomColorHexRGB,
+    chance,
+    id,
+    get,
+    colorizeImage,
+    lightenDarkenColor,
+    append
+} from "../app/utils";
+import { Sprite } from "../app/sprite";
 
-export class People {
-    constructor() {
-        this.bases = [];
-        this.colors = {
-            clothes: ['00e756ff', '008751ff'],
-            skin: ['ffccaaff', 'ff77a8ff'],
-        }
-        this.init();
+export const COLORS = {
+    skin: [
+        'dc9108',
+        'e8c7a1',
+        'be8e66',
+        '99633c',
+        '4c3732',
+    ],
+    eyes: [
+        '277bc4',
+        '367865',
+        '9f5924',
+    ],
+    hairs: {
+        standard: [
+            'd24122',
+            '9b5324',
+            '141414',
+            'b4bac4',
+        ],
+        rogue: [
+            '1c6f0b',
+            '2093bf',
+            'ca0c2a',
+            '3f1695',
+        ]
     }
-    init() {
-        const { canvas, ctx, remove } = createCanvas();
-        const img = id('people');
-        // img.style.display = 'none';
-        ctx.drawImage(img, 0, 0, img.width, img.height);
-        const wh = 16;
-        const peopleCnt = 8;
-        for (let i = 0; i < peopleCnt; i++) {
-            const data = [...ctx.getImageData(i * wh, 0, wh, wh).data];
-            this.bases.push(data.map(color => toHex(color, 2)));
-        }
-        remove();
-    }
-    replaceColor(color, colors) {
-        const { clotheColor, skinColors } = colors;
-        switch (color) {
-            case this.colors.clothes[0]:
-                return clotheColor;
-            case this.colors.clothes[1]:
-                return lightenDarkenColor(clotheColor, -80);
-            case this.colors.skin[0]:
-                return skinColors;
-            case this.colors.skin[1]:
-                return lightenDarkenColor(skinColors, -80);
-            default:
-                return color;
-        }
-    }
-    createPeoples(number) {
-        const { ctx, canvas } = createCanvas();
+}
+let man_id = 0;
 
-        canvas.webkitImageSmoothingEnabled = false;
-        canvas.mozImageSmoothingEnabled = false;
-        canvas.imageSmoothingEnabled = false;
-        const cols = Math.ceil(Math.sqrt(number));
-        const rows = cols;        
-        canvas.width = rows * 16;
-        canvas.height = rows * 16;
+export function People(name) {
+    this.id = name || 'jan_' + man_id++;
+    this.config = People.shuffle();
+    this.create = () => {
+        const {
+            width,
+            height
+        } = id('base');
+        const {
+            canvas,
+            ctx,
+            remove
+        } = createCanvas(width, height);
 
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                this.drawRandomPeople(ctx, r * 16, c * 16);
-            }
-        }a
+        const order = [
+            'base',
+            'eyes',
+            'pants',
+            'shirt',
+            'vest',
+            'bib',
+            'hair01',
+            'hair10',
+            'hair02',
+        ];
+        return new Promise((resolve) => {
+            order.forEach(key => {
+                if (!!this.config[key]) {
+                    colorizeImage(ctx, id(key), this.config[key]);
+                }
+            });
+            const img = get('div');
+            append(document.body, img).id = this.id;
+            img.style.background = canvas.toDataURL('image/png');
+            const frameDimensions = {
+                w: 24,
+                h: 32,
+            };
+            const sprite = new Sprite(img, 3, 4, frameDimensions);
+            sprite.addAnimation('right', [4, 3, 4, 5]);
+            sprite.addAnimation('left', [10, 9, 10, 11]);
+            sprite.addAnimation('up', [1, 0, 1, 2]);
+            sprite.addAnimation('down', [7, 6, 7, 8]);
+            resolve(sprite);
+        });
+    };
+}
+People.shuffle = () => {
+    const config = {
+        base: COLORS.skin[random(COLORS.skin.length - 1)],
+        eyes: COLORS.eyes[random(COLORS.eyes.length - 1)],
+        pants: randomColorHexRGB(64, 128),
+        shirt: chance(80) ? randomColorHexRGB(64, 192) : null,
+        vest: chance(10) ? randomColorHexRGB(32, 64) : null,
+        bib: null,
+        hair01: null,
+        hair10: null,
+        hair02: null,
     }
-    drawPeople(ctx, type, x, y) {
-        const clotheColor = randomColorHexRGBA();
-        const skinColors = lightenDarkenColor(this.colors.skin[0], random(64) - 48);
-        const data = this.bases[random(7)].join('').match(/.{1,8}/g).map((e) => this.replaceColor.call(this, e, { clotheColor, skinColors }));
-        for (let h = y, cnt = 0; h < y + 16; h++) {
-            for (let w = x; w < x + 16; w++ , cnt++) {
-                ctx.fillStyle = '#' + data[cnt];
-                ctx.fillRect(w, h, 1, 1);
-            }
-        }
-    }
-    drawRandomPeople(ctx, x, y) {
-        this.drawPeople(ctx, random(7), x, y);  
-    }
+    config.bib = !config.shirt && !config.shirt && chance(30) ? randomColorHexRGB(64, 192) : null;
+    const hairType = (chance(60) && 'standard') || (chance(30) && 'rogue') || null;
+    const hairColor = hairType ? COLORS.hairs[hairType][random(COLORS.hairs[hairType].length - 1)] : null;
+    config.hair01 = hairType == 'standard' ? chance(70) && hairColor || null : null;
+    config.hair10 = hairType == 'standard' ? (config.hair01 ? chance(50) && hairColor : null) : null;
+    config.hair02 = hairType == 'rogue' ? hairColor : null;
+    return config;
 }

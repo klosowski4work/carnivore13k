@@ -10,15 +10,15 @@ class CameraClass {
          * @private 
          */
         this._entity = null;
-        this.pos = new Point(GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        this.position = new Point(GAME_WIDTH / 2, GAME_HEIGHT / 2);
         this.zoom = 800;
         this.instance = null;
     }
 
     update() {
         if (!this._entity) return;
-        this.pos.x = this._entity.pos.x;
-        this.pos.y = this._entity.pos.y;
+        this.position.x = this._entity.position.x;
+        this.position.y = this._entity.position.y;
     };
     follow(entity) {
         this._entity = entity;

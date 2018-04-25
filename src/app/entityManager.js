@@ -1,6 +1,6 @@
-import { id, get } from "https";
+import { id, get } from "./utils";
 
-class EntutyManager {
+class EntityManager {
     constructor() {
         entities = [];
         layersCtx = [];
@@ -27,7 +27,7 @@ class EntutyManager {
     render() {
         for (var i = 0; i < this.layersCtx.length; i++) {
             const { width, height } = layersCtx[i].canvas;
-            this.layersCtx[i].clearRect(0, 0, width, height);
+            clearRect(this.layersCtx[i],[0, 0, width, height]);
         }
     }
     init() {

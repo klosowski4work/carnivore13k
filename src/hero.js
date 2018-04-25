@@ -9,7 +9,7 @@ export class Hero extends Entity {
         super();
         this.image = id(hero_id);
         this.animations = {};
-        this.pos = new Point(0, 250);
+        this.pos = new Point(0, 210);
         this.width = 24;
         this.height = 32;
         this.initCanvas();
@@ -37,7 +37,6 @@ export class Hero extends Entity {
         }
         const w = this.width;
         const h = this.height;
-
         this.animations.right = new Animation(options)
             .addFrame(2 * w, h, w, h)
             .addFrame(w, h, w, h)
@@ -78,7 +77,7 @@ export class Hero extends Entity {
     render() {
         this.ctx.clearRect(0, 0, this.width, this.height);
 
-        this.canvas.style.transform = `translate3d(230px,${this.pos.y}px,1px)`;
+        this.canvas.style.transform = `translate3d(100px,${this.pos.y}px,1px)`;
         this.animations[this.direction].render(0, 0);
     }
     update() {
