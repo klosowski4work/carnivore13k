@@ -32,7 +32,7 @@ export class Core {
                 this.loop();
             });
 
-       
+
     };
     initPlayer() {
         new People().create()
@@ -52,7 +52,7 @@ export class Core {
     initCity() {
         this.city = new City(15);
     }
-    
+
     initCanvases() {
         this.container = id("game");
         this.canvas = get('canvas');

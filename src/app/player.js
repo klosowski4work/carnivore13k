@@ -6,9 +6,9 @@ import { Keyboard } from "./keyboard";
 export class Player extends Entity {
     constructor(conf) {
         super(conf);
-        conf.sprite.ctx.canvas.id = 'player';
+        conf.sprite.img.id = 'player';
         console.log('Player:', 'constructor()');
-        append(id('layer_street'), conf.sprite.ctx.canvas);
+        append(id('layer_street'), conf.sprite.img);
     }
     moveRight() {
         this.sprite.setAction('right');
@@ -44,6 +44,6 @@ export class Player extends Entity {
         let reset = 0;
         Object.keys(Keyboard.Keys).forEach(key => reset += Keyboard.Keys[key]);
         this.sprite.update(!reset);
-        this.sprite.canvas.style.transform = `translate3d(30px,${this.position.y}px,${this.position.y}px)`;
+        this.sprite.img.style.transform = `translate3d(30px,${this.position.y}px,${this.position.y}px)`;
     }
 }

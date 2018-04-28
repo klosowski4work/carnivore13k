@@ -11,9 +11,10 @@ export class Sprite {
      * @param {*} options //additional options
      */
     constructor(srcImg, cols, rows, frame, options = {}) {
-        const { canvas, ctx } = createCanvas(frame.w, frame.h);
-        this.ctx = ctx;
-        this.canvas = canvas;
+        // const { canvas, ctx } = createCanvas(frame.w, frame.h);
+
+        // this.ctx = ctx;
+        // this.canvas = canvas;
         this.img = srcImg;
         this.frame = frame;
         this.frames = []; // frames of current animation  
@@ -59,13 +60,10 @@ export class Sprite {
      * @param {string} action 
      */
     render() {
-        const { ctx, img, frames, frame, curFrame } = this;
+        const { img, frames, frame, curFrame } = this;
         const cf = this.frames[curFrame];
-        ctx.clearRect(0, 0, frame.w, frame.h);
-        ctx.drawImage(img,
-            cf.x, cf.y, frame.w, frame.h,
-            0, 0, frame.w, frame.h
-        );
+        img.style.backgroundPositionX = cf.x + 'px';
+        img.style.backgroundPositionY = cf.y + 'px';
     }
     update(reset) {
         if (reset) {
