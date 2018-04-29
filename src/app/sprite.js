@@ -1,9 +1,8 @@
-import { createCanvas } from "./utils";
+import { createCanvas, append } from "./utils";
 
 
 export class Sprite {
     /**
-     * 
      * @param {Image} srcImg //spriteSheet
      * @param {number} cols //number of columns in spriteSheet
      * @param {number} rows //number of rows in spriteSheet
@@ -16,11 +15,12 @@ export class Sprite {
         // this.ctx = ctx;
         // this.canvas = canvas;
         this.img = srcImg;
+        this.img.width = frame.w;
         this.frame = frame;
         this.frames = []; // frames of current animation  
         this.framesDef = []; // definition of frames
         this.animations = {};
-
+        this.img.style.position = "absolute";
         this.ticksPerFrame = options.ticksPerFrame || 16;
 
         this.action = '';
@@ -54,7 +54,9 @@ export class Sprite {
         this.action = action;
         this.frames = this.animations[action].map((frameIds) => this.framesDef[frameIds]);
     }
-
+    setParent(parent) {
+        append(parent, this.img);
+    }
     /**
      * 
      * @param {string} action 

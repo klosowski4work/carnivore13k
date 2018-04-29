@@ -103,6 +103,12 @@ export function tileToWorldSpace(tile) {
   return tile.mul(TILE_SIZE);
 }
 
+export function distance(x1, y1, x2, y2) {
+  const xs = x2 - x1;
+  const ys = y2 - y1;
+  return Math.sqrt(xs * xs + ys * ys);
+};
+
 /**
  * @param {Point} ws
  * @return {Point}

@@ -2,17 +2,23 @@
 export class Entity {
   constructor(conf) {
     console.log('Entity:', 'constructor()');
+    this._conf = conf;
     this.sprite = conf.sprite;
-    this.position = conf.position;
+    this.position = conf.position || { x: 0, y: 0, z: 0 };
     this.width = conf.width;
     this.height = conf.height;
     this.rotation = 0;
+    this.velocity = 1;
   }
   update() {
+    const { x, y, z } = this.position;
+    this.sprite.img.style.transform = `translate3d(${x}px,${y}px,${z}px)`;
     this.sprite.update();
+    if (this._conf.onUpdate) this._conf.onUpdate();
   };
   render() {
     this.sprite.render();
+    if (this._conf.onRender) this._conf.onRender();
   };
 };
 

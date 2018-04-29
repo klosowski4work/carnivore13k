@@ -6,6 +6,7 @@
 }
 
 body {
+    font-family: arial;
     image-rendering: pixelated;
 }
 
@@ -13,8 +14,7 @@ body {
     display: none;
 }
 
-canvas {
-}
+canvas {}
 
 #game {
     perspective: 2000px;
@@ -22,6 +22,7 @@ canvas {
     height: 300px;
     border: 1px solid green;
     overflow: hidden;
+    margin: auto;
 }
 
 .layer_far {
@@ -37,21 +38,69 @@ canvas {
     transform: translate3d(0, 140px, -10px);
     perspective: 700px;
     transform-style: preserve-3d;
-    bottom: 130px;
+    bottom: 140px;
     height: 350px;
     position: relative;
 }
 
+#health-bar {
+    width: 200px;
+    height: 15px;
+    border: solid 1px black;
+    background: white;
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+#game-over {
+    font-size: 48px;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    background: rebeccapurple;
+}
+
+#scores::before {
+    content: 'Distance: ';
+}
+
+#scores {
+    position: fixed;
+    top: 10px;
+    right: 0px;
+    width: 140px;
+    z-index: 1;
+}
+
+/* .layer_street::afterafter {
+    content: '';
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 35px;
+    border: 3px dashed white;
+}
+ */
+
+.assetImg {
+    display: none;
+}
+
 .layer_street {
-    width: 1000px;
+    padding-top: 5px;
     background-color: gray;
     position: absolute;
     bottom: 0px;
     height: 85px;
+    z-index: 11;
 }
 
 .layer_middle .building {
-    margin-left: 100px;
+    margin-left: 200px;
 }
 
 .building {

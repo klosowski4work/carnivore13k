@@ -15,10 +15,10 @@ class CameraClass {
         this.instance = null;
     }
 
-    update() {
+    update(offsetX = 0, offsetY = 0) {
         if (!this._entity) return;
-        this.position.x = this._entity.position.x;
-        this.position.y = this._entity.position.y;
+        this.position.x = this._entity.position.x + offsetX;
+        this.position.y = this._entity.position.y + offsetY;
     };
     follow(entity) {
         this._entity = entity;
