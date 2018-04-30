@@ -55,7 +55,7 @@ export class Core {
             });
     }
     initCity() {
-        this.city = new City(15);
+        this.city = new City(25);
     }
 
     initEnemy() {

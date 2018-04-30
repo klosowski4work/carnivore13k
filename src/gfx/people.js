@@ -77,7 +77,7 @@ export function People(name) {
             img.style.backgroundImage = `url('${canvas.toDataURL('image/png')}')`;
             img.style.width = '24px';
             img.style.height = '32px';
-            
+
             const frameDimensions = {
                 w: 24,
                 h: 32,
@@ -87,6 +87,7 @@ export function People(name) {
             sprite.addAnimation('right', [10, 9, 10, 11]);
             sprite.addAnimation('up', [1, 0, 1, 2]);
             sprite.addAnimation('down', [7, 6, 7, 8]);
+            remove();
             resolve(sprite);
         });
     };

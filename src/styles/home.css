@@ -10,18 +10,30 @@ body {
     image-rendering: pixelated;
 }
 
-#x {
-    display: none;
+.overlay {
+    position: fixed;
+    background-color: black;
+    width: 100%;
+    height: 100%;
 }
 
-canvas {}
+#grass {
+    position: absolute;
+    background-color: darkolivegreen;
+    width: 100%;
+    height: 80%;
+    bottom: 0px;
+    display: block;
+}
 
 #game {
+    transform: translateY(300px) scale(2.5);
     perspective: 2000px;
     width: 500px;
     height: 300px;
     border: 1px solid green;
     overflow: hidden;
+    background: powderblue;
     margin: auto;
 }
 
@@ -69,6 +81,7 @@ canvas {}
 }
 
 #scores {
+    color: whitesmoke;
     position: fixed;
     top: 10px;
     right: 0px;
@@ -91,11 +104,12 @@ canvas {}
 }
 
 .layer_street {
+    border: 5px solid dimgray;
     padding-top: 5px;
     background-color: gray;
     position: absolute;
     bottom: 0px;
-    height: 85px;
+    height: 75px;
     z-index: 11;
 }
 
@@ -128,7 +142,9 @@ canvas {}
 }
 
 .building .side.top {
-    background-color: gray;
+    background-color: gray !important;
+    background-image: none;
+    border: 7px solid darkgrey;
     position: absolute;
     transform: rotateX(-90deg) scaleZ(-1);
     transform-origin: 100% 0;

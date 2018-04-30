@@ -21,7 +21,8 @@ export class Enemy extends Entity {
         this.counterBase = 500;
         this.shots = [];
         this.lastShot = 0;
-        this.speedShot = 2;
+        this.speedShot = 1;
+        this.velocity = 0.02;
         this.initShots();
     }
     setParent(parent) {
@@ -55,11 +56,13 @@ export class Enemy extends Entity {
         shot.position.x = x;
         shot.position.y = y;
         shot.sprite.setAction(`food${random(3) - 1}`);
+        this.velocity += 0.001;
+        this.velocity = clamp(this.velocity, 0.02, 1);
     }
     update() {
         const { x, y, z } = this.position;
         const { x: x1, y: y1 } = this.player.position;
-        this.position.y += 0.05;
+        this.position.y += this.velocity;
         this.speedShot += 0.002;
         this.shots.forEach(shot => {
             const { x: x2, y: y2 } = shot.position;
@@ -70,7 +73,7 @@ export class Enemy extends Entity {
             shot.position.x -= clamp(this.speedShot, 2, MAX_SHOT_SPEED);
             shot.update();
         });
-        this.sprite.img.style.transform = `translate3d(${x}px,${(Math.cos(y) * 35) + 30}px,${z}px)`;
+        this.sprite.img.style.transform = `translate3d(${x}px,${(Math.cos(y) * 35) + 20}px,${z}px)`;
         this.sprite.update();
         if (--this.counter < 0) {
             console.log('emit', this.counter);

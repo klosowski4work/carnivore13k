@@ -12,7 +12,7 @@ export class Player extends Entity {
         append(id('layer_street'), conf.sprite.img);
         this.initHealthBar();
         this.distance = id('scores');
-        this.velocity = 1.5;
+        this.velocity = 2;
     }
     initHealthBar() {
         this.hbar = get('div');
@@ -56,7 +56,7 @@ export class Player extends Entity {
             this.moveDown();
         }
         this.position.y = clamp(this.position.y, -25, 50);
-        this.position.x = clamp(this.position.x, 50, 5000);
+        this.position.x = clamp(this.position.x, 50, 500000);
         let reset = 0;
         Object.keys(Keyboard.Keys).forEach(key => reset += Keyboard.Keys[key]);
         this.sprite.update(!reset);
